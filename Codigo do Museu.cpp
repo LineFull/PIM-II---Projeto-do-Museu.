@@ -73,21 +73,27 @@ int main() {
                     printf("Gerando Ticket aguarde...\n");
                 }
                 
-                // Abre o arquivo CSV para escrita
-                FILE *fptr = fopen("arqv.csv", "a");
-                if (fptr == NULL) {
-                    printf("Erro ao abrir o arquivo CSV.\n");
-                    return 1;
-                }
-
                 // Gera e imprime 1 número aleatório
                 srand(time(NULL));
                 int numero_aleatorio = rand();
                 
                 // Itens do ticket
+                // Gera o nome do arquivo com a data atual
+                time_t t = time(NULL);
+                struct tm tm = *localtime(&t);
+                char nome_arquivo[100];
+                sprintf(nome_arquivo, "arqv_%04d-%02d-%02d.csv", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+
+                // Abre o arquivo CSV para escrita
+                FILE *fptr = fopen(nome_arquivo, "a");
+                if (fptr == NULL) {
+                    printf("Erro ao abrir o arquivo CSV.\n");
+                    return 1;
+                }
+
                 fprintf(fptr, "Seu ticket: %d\n", numero_aleatorio);
-                 printf("seu ticket: %d\n", numero_aleatorio);
-                 printf("\n");
+                printf("seu ticket: %d\n", numero_aleatorio);
+                printf("\n");
                 if (opcao >= 1 && opcao <= 4)
                     fprintf(fptr, "Tema escolhido: %d\n", opcao);
 
